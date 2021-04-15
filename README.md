@@ -9,3 +9,6 @@ This is a small Tutorial that shows you how to mine Duco on a wifi router. Duco 
 4. Now use a program like winscp to get the Minimal_PC_Miner.py script onto your router. Theres also a different Script here.
 5. Then go back to ssh and type "python3 Minimal_PC_Miner.py"
 6. Thats it! Your router is now mining crypto
+
+Offically tested Routers:
+AVM Fritz!Box 4040: 18kh/s at 2400 difficulty
