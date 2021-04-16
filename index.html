@@ -1,18 +1,21 @@
+<!DOCTYPE html>
 <html>
-  <body>
-    <p style="font-size:30px">Mine crypto on a Router!</p> 
- 
-    <b>Warning! This is still under development. Everything at your own risk.</b>
-    <p>This is a small Tutorial that shows you how to mine Duco on a wifi router.  <a href="https://duinocoin.com">DuinoCoin</a> is a crypto that can even be mined on such low power devices.<p>
-
-    1. Flash your router with  <a href="https://openwrt.org">Openwrt</a> . There many guides for your specific router out there. This will void your Warranty!
-    2. SSH into your router. Under Linux run: "ssh root@[routerip]. Under Windows use Putty. The default port 22 is fine.
-    3. type: "opkg update" and then"opkg install python3" to install python.
-    4. Now use "wget 
-    5. Then go back to ssh and type "python3 Minimal_PC_Miner.py"
-    6. Thats it! Your router is now mining crypto
-
-    Offically tested Routers:
-    AVM Fritz!Box 4040: 18kh/s at 2400 difficulty
-  </body>
-</html>
+    <body>
+      <h1>Mine crypto on a Wifi router!</h1> 
+   
+      <b>Warning! This is still under development. Everything at your own risk.</b>
+      <p>This is a small Tutorial that shows you how to mine Duco on a wifi router.  <a href="https://duinocoin.com">DuinoCoin</a> is a crypto that can even be mined on such low power devices.<p>
+      <p>  
+      1. Flash your router with  <a href="https://openwrt.org">Openwrt</a> . There many guides for your specific router out there. This will void your Warranty!<br>
+      2. SSH into your router. Under Linux and mac run: "ssh root@[routerip] in a terminal. Under Windows use Putty. The default port 22 is fine.<br>
+      3. type: "opkg update" and then"opkg install python3" to install python.<br>
+      4. Now downlaod the minminer from github and send it to your router via scp(e.g. winscp)<br>
+      5. Then go back to ssh and type "python3 Minimal_PC_Miner.py"<br>
+      6. Thats it! Your router is now mining crypto<br>
+  
+      Offically tested Routers:<br>
+      <br>
+      AVM Fritz!Box 4040: 18kh/s at 2400 difficulty<br>
+      </p>
+    </body>
+  </html>
