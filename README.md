@@ -1,7 +1,7 @@
 # MineCryptoOnWifiRouter
  
  Warning! This is still under development. Everything at your own risk.
-This is a small Tutorial that shows you how to mine Duco on a wifi router.  <a href="https://github.com/revoxhere/duino-coin">DuinoCoin</a> is a crypto that can even be mined on such low power devices.
+This is a small Tutorial that shows you how to mine Duco on a wifi router.  <a target="_blank" rel="DuinoCoin" href="https://duinocoin.com">Link</a> is a crypto that can even be mined on such low power devices.
 
 1. Flash your router with openwrt. There many guides for your specific router out there. This will void your Warranty!
 2. SSH into your router. Under Linux run: "ssh root@[routerip]. Under Windows use Putty. The default port 22 is fine.
