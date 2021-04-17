@@ -11,4 +11,4 @@ This is a small Tutorial that shows you how to mine Duco on a wifi router.  <a h
 6. Thats it! Your router is now mining crypto
 
 Offically tested Routers:
-AVM Fritz!Box 4040: 18kh/s at 2400 difficulty
+AVM Fritz!Box 4040: 20kh/s at 2400 difficulty
