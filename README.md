@@ -1,6 +1,6 @@
 # MineCryptoOnWifiRouter
  
- <b>Warning! This is still under development. Everything at your own risk.<b>
+ <b>Warning! This is still under development. Everything at your own risk.</b>
  This is a small Tutorial that shows you how to mine Duco on a wifi router.  <a href="https://duinocoin.com">DuinoCoin</a> is a crypto that can even be mined on such low power devices.
 
 1. Flash your router with  <a href="https://openwrt.org">Openwrt</a> . There many guides for your specific router out there. This will void your Warranty!
