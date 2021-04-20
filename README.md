@@ -13,4 +13,4 @@
 7. Thats it! Your router is now mining crypto! Happy Mining!
 
 Offically tested Routers:
-AVM Fritz!Box 4040: 100kh/s at 2400 difficulty
+AVM Fritz!Box 4040: 100kh/s at 2400 difficulty(~15 DUCO per day)
