@@ -1,6 +1,6 @@
 # MineCryptoOnWifiRouter
  
- <b>Warning! This is still under development. Everything at your own risk.</b>
+ <b>Warning! This is still under development, but its mostly working by now.</b>
  
  This is a small Tutorial that shows you how to mine DuinoCoin on a wifi router.  <a href="https://duinocoin.com">DuinoCoin</a> is a crypto that can even be mined on such low power devices.
 
@@ -14,4 +14,4 @@
 7. Thats it! Your router is now mining crypto! Happy Mining!
 
 Offically tested Routers:
-AVM Fritz!Box 4040: 100kh/s at 2400 difficulty(~15 DUCO per day)
+AVM Fritz!Box 4040: 100kh/s at 2400 difficulty(~15-20 DUCO per day)
