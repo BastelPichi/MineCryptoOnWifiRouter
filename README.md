@@ -10,8 +10,14 @@
 3. type: "opkg update", "opkg install python3" and "opkg install coreutils-nohup" to install python and nohup.
 4. Now edit the led names in the script. Also change Pichi to your username. There comments.
 5. Now use a program like winscp to get the miner.py script onto your router.
-6. Then go back to ssh and type "nohup python3 miner.py &".
-7. Thats it! Your router is now mining crypto! Happy Mining!
+6. Then go back to ssh and type "python3 miner.py".
+7. If everything seems to work, and the router is mining, press Ctrl + c and type "nohup python3 miner.py &". If it doesnt, open a issue.
+8. Thats it! Your router is now mining crypto! Happy Mining!
 
 Offically tested Routers:
 AVM Fritz!Box 4040: 100kh/s at 2400 difficulty(~15-20 DUCO per day)
+
+How can I further develop this?
+1. Create a fork
+2. Change the things you want to change and make shure everything works
+3. Open a pull request
