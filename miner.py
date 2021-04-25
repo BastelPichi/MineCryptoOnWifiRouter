@@ -87,11 +87,11 @@ while True:
                     feedback = soc.recv(1024).decode().rstrip("\n")
                     # If result was good
                     if feedback == "GOOD":
-                        file = open('/sys/class/leds/fritz4040:amber:wlan/brightness','w')# replace that with the led no. 1 name
+                        file = open('/sys/class/leds/fritz4040:amber:info/brightness','w')# replace "fritz4040:amber:info" with the led no. 1 name
                         file.write('1')
                         file.close()
                         time.sleep(0.3)
-                        file = open('/sys/class/leds/fritz4040:amber:wlan/brightness','w')# replace that with the led no. 1 name
+                        file = open('/sys/class/leds/fritz4040:amber:info/brightness','w')# replace "fritz4040:amber:info" with the led no. 1 name
                         file.write('0')
                         file.close()
                         print("Accepted share",
@@ -104,11 +104,11 @@ while True:
                         break
                     # If result was incorrect
                     elif feedback == "BAD":
-                        file = open('/sys/class/leds/fritz4040:red:wlan/brightness','w')# replace that with the led no. 2 name
+                        file = open('/sys/class/leds/fritz4040:red:ingo/brightness','w')# replace "fritz4040:red:info" with the led no. 2 name
                         file.write('1')
                         file.close()
                         time.sleep(0.3)
-                        file = open('/sys/class/leds/fritz4040:red:wlan/brightness','w')# replace that with the led no. 2 name
+                        file = open('/sys/class/leds/fritz4040:red:info/brightness','w')# replace "fritz4040:red:info"that with the led no. 2 name
                         file.write('0')
                         file.close()
                         print("Rejected share",
