@@ -4,7 +4,8 @@
  This is a small Tutorial that shows you how to mine DuinoCoin on a wifi router.  <a href="https://duinocoin.com">DuinoCoin</a> is a crypto that can even be mined on such low power devices.
  
  I made a detailed video. Read the description.
-https://www.youtube.com/watch?v=BmaWwalQHnc=22
+
+<a href="https://www.youtube.com/watch?v=BmaWwalQHnc=22" target="_blank">https://www.youtube.com/watch?v=BmaWwalQHnc</a>
 1. Flash the router you want to use with  <a href="https://openwrt.org">Openwrt</a> . There many guides for your specific router out there. This will void your Warranty!
  If you want to buy a router in purpose I wouldt recomemnd a tplink. You can flash them very easely and theyre cheap.
 2. SSH into your router. Under Linux run: "ssh root@[routerip]. Under Windows use Putty. The default port 22 is fine.
