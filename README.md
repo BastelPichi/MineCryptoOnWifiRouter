@@ -1,6 +1,5 @@
 # MineCryptoOnWifiRouter
  
- <b>Warning! This is still under development... So try it and find bugs!</b>
  
  This is a small Tutorial that shows you how to mine DuinoCoin on a wifi router.  <a href="https://duinocoin.com">DuinoCoin</a> is a crypto that can even be mined on such low power devices.
 
