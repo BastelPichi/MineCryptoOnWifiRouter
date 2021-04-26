@@ -80,7 +80,7 @@ while True:
                         str(result)
                         + ","
                         + str(hashrate)
-                        + ",Minimal_PC_Miner",
+                        + ",Router_Miner",
                         encoding="utf8"))
 
                     # Get feedback about the result
