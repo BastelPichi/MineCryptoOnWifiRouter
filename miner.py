@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Minimal version of Duino-Coin PC Miner. Created by revox 2020-2021, adapted for openwrt by BastelPichi
+# Minimal version of Duino-Coin PC Miner. Created BastelPichi
 import hashlib
 import os
 import socket
