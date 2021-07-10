@@ -89,7 +89,7 @@ while True:
                         str(result)
                         + ","
                         + str(hashrate)
-                        + ",Router_Miner",
+                        + ",Router_Miner"
                         + "2.45",
                         encoding="utf8"))
 
