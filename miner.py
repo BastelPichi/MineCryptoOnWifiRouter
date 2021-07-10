@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # Router Miner, created by bastelPichi.
+# Modifications made by ihyoudou (issei.space) 2021
 import hashlib
 import os
 import socket
@@ -11,8 +12,11 @@ soc = socket.socket()
 soc.settimeout(10)
 
 username = "Pichi"  # Edit this to your username, mind the quotes
+
+enableLEDNotification = True # Edit this to enable or disable LED notification (True/False)
 ledaccepted = "fritz4040:amber:info" # Edit this to your first LED name
 ledrejected = "fritz4040:red:info" # Edit this to your second LED 
+
 UseLowerDiff = True  # leave as is
 
 
@@ -97,13 +101,15 @@ while True:
                     feedback = soc.recv(1024).decode().rstrip("\n")
                     # If result was good
                     if feedback == "GOOD":
-                        file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
-                        file.write('1')
-                        file.close()
-                        time.sleep(0.3)
-                        file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
-                        file.write('0')
-                        file.close()
+                        # If LED notification is enabled
+                        if enableLEDNotification:
+                            file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
+                            file.write('1')
+                            file.close()
+                            time.sleep(0.3)
+                            file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
+                            file.write('0')
+                            file.close()
                         print("Accepted share",
                               result,
                               "Hashrate",
@@ -114,13 +120,16 @@ while True:
                         break
                     # If result was incorrect
                     elif feedback == "BAD":
-                        file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
-                        file.write('1')
-                        file.close()
-                        time.sleep(0.3)
-                        file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
-                        file.write('0')
-                        file.close()
+                        # If LED notification is enabled
+                        if enableLEDNotification:
+                            file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
+                            file.write('1')
+                            file.close()
+                            time.sleep(0.3)
+                            file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
+                            file.write('0')
+                            file.close()
+
                         print("Rejected share",
                               result,
                               "Hashrate",
