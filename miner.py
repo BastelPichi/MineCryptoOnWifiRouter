@@ -1,18 +1,23 @@
 #!/usr/bin/env python3
 # Router Miner, created by bastelPichi.
+# Modifications made by ihyoudou (issei.space) 2021
 import hashlib
 import os
 import socket
 import sys  # Only python3 included libraries
 import time
 import urllib.request
+import json
 
 soc = socket.socket()
 soc.settimeout(10)
 
 username = "Pichi"  # Edit this to your username, mind the quotes
+
+enableLEDNotification = False # Edit this to enable or disable LED notification (True/False)
 ledaccepted = "fritz4040:amber:info" # Edit this to your first LED name
 ledrejected = "fritz4040:red:info" # Edit this to your second LED 
+
 UseLowerDiff = True  # leave as is
 
 
@@ -21,18 +26,15 @@ def retrieve_server_ip():
     pool_obtained = False
     while not pool_obtained:
         try:
-            serverip = ("https://raw.githubusercontent.com/"
-                            + "revoxhere/"
-                            + "duino-coin/gh-pages/"
-                            + "serverip.txt")
-            with urllib.request.urlopen(serverip) as content:
-                # Read content and split into lines
-                content = content.read().decode().splitlines()
+            serverip = ("https://server.duinocoin.com/getPool")
+            # Loading pool address from API as json array
+            poolInfo = json.loads(urllib.request.urlopen(serverip).read())
+            
             global pool_address, pool_port
             # Line 1 = IP
-            pool_address = content[0]
+            pool_address = poolInfo['ip']
             # Line 2 = port
-            pool_port = content[1]
+            pool_port = poolInfo['port']
             pool_obtained =  True
         except:
             print("> Failed to retrieve Pool Address and Port, Retrying.")
@@ -89,7 +91,7 @@ while True:
                         str(result)
                         + ","
                         + str(hashrate)
-                        + ",Router_Miner",
+                        + ",Router_Miner"
                         + "2.45",
                         encoding="utf8"))
 
@@ -97,13 +99,15 @@ while True:
                     feedback = soc.recv(1024).decode().rstrip("\n")
                     # If result was good
                     if feedback == "GOOD":
-                        file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
-                        file.write('1')
-                        file.close()
-                        time.sleep(0.3)
-                        file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
-                        file.write('0')
-                        file.close()
+                        # If LED notification is enabled
+                        if enableLEDNotification:
+                            file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
+                            file.write('1')
+                            file.close()
+                            time.sleep(0.3)
+                            file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
+                            file.write('0')
+                            file.close()
                         print("Accepted share",
                               result,
                               "Hashrate",
@@ -114,13 +118,16 @@ while True:
                         break
                     # If result was incorrect
                     elif feedback == "BAD":
-                        file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
-                        file.write('1')
-                        file.close()
-                        time.sleep(0.3)
-                        file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
-                        file.write('0')
-                        file.close()
+                        # If LED notification is enabled
+                        if enableLEDNotification:
+                            file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
+                            file.write('1')
+                            file.close()
+                            time.sleep(0.3)
+                            file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
+                            file.write('0')
+                            file.close()
+
                         print("Rejected share",
                               result,
                               "Hashrate",
