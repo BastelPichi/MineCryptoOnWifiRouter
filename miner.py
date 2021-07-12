@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Router Miner, created by bastelPichi.
+# Router Miner, created by BastelPichi.
 # Modifications made by ihyoudou (issei.space) 2021
 import hashlib
 import os
@@ -15,8 +15,8 @@ soc.settimeout(10)
 username = "Pichi"  # Edit this to your username, mind the quotes
 
 enableLEDNotification = False # Edit this to enable or disable LED notification (True/False)
-ledaccepted = "fritz4040:amber:info" # Edit this to your first LED name
-ledrejected = "fritz4040:red:info" # Edit this to your second LED 
+ledaccepted = "fritz4040:amber:info" # Edit this to your first LED name, leave as is if you disabled led notifications above.
+ledrejected = "fritz4040:red:info" # Edit this to your second LED, leave as is if you disabled led notifications above.
 
 UseLowerDiff = True  # leave as is
 
