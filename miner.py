@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # Router Miner, created by BastelPichi.
-# Modifications made by ihyoudou (issei.space) 2021
+# Modifications made by ihyoudou
 import hashlib
 import os
 import socket
-import sys  # Only python3 included libraries
+import sys
 import time
 import urllib.request
 import json
@@ -18,11 +18,8 @@ enableLEDNotification = False # Edit this to enable or disable LED notification 
 ledaccepted = "fritz4040:amber:info" # Edit this to your first LED name, leave as is if you disabled led notifications above.
 ledrejected = "fritz4040:red:info" # Edit this to your second LED, leave as is if you disabled led notifications above.
 
-UseLowerDiff = True  # leave as is
-
-
 def retrieve_server_ip():
-    print("> Retrieving Pool Address And Port")
+    print("Retrieving Pool Address And Port")
     pool_obtained = False
     while not pool_obtained:
         try:
@@ -50,19 +47,12 @@ while True:
 
         # Mining section
         while True:
-            if UseLowerDiff:
-                # Send job request for lower diff
-                soc.send(bytes(
-                    "JOB,"
-                    + str(username)
-                    + ",LOW",
-                    encoding="utf8"))
-            else:
-                # Send job request
-                soc.send(bytes(
-                    "JOB,"
-                    + str(username),
-                    encoding="utf8"))
+            # Send job request 
+            soc.send(bytes(
+                "JOB,"
+                + str(username)
+                + ",LOW",
+                encoding="utf8"))
 
             # Receive work
             job = soc.recv(1024).decode().rstrip("\n")
