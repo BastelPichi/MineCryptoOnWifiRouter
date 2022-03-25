@@ -1,72 +1,99 @@
 #!/usr/bin/env python3
-# Router Miner, created by BastelPichi.
-# Modifications made by ihyoudou
+# Duino-Coin Router Miner. Heavely based on the duino-coin Minimal PC Miner.
+# Created by revox 2020-2022
+# Modifications made to work on routers BastelPichi 2022
+
 import hashlib
 import os
-import socket
-import sys
+from socket import socket
+import sys  # Only python3 included libraries
 import time
-import urllib.request
-import json
+import requests
 
-soc = socket.socket()
-soc.settimeout(10)
 
-username = "Pichi"  # Edit this to your username, mind the quotes
+username = "Pichi" # add your username here, if set mining key after a colon. e.g. Pichi or Pichi:insecurepw
 
-enableLEDNotification = False # Edit this to enable or disable LED notification (True/False)
-ledaccepted = "fritz4040:amber:info" # Edit this to your first LED name, leave as is if you disabled led notifications above.
-ledrejected = "fritz4040:red:info" # Edit this to your second LED, leave as is if you disabled led notifications above.
+leds = True # True if led notifications shouzld be enabled, if not, False.
+accepted = "fritz4040:amber:info" # Name of the LED that should blink on a accepted share.
+rejected = "fritz4040:red:info" # Name of the LED that should blink on a rejected share.
 
-def retrieve_server_ip():
-    print("Retrieving Pool Address And Port")
-    pool_obtained = False
-    while not pool_obtained:
+soc = socket()
+
+def current_time():
+    t = time.localtime()
+    current_time = time.strftime("%H:%M:%S", t)
+    return current_time
+
+def fetch_pools():
+    while True:
         try:
-            serverip = ("https://server.duinocoin.com/getPool")
-            # Loading pool address from API as json array
-            poolInfo = json.loads(urllib.request.urlopen(serverip).read())
-            
-            global pool_address, pool_port
-            # Line 1 = IP
-            pool_address = poolInfo['ip']
-            # Line 2 = port
-            pool_port = poolInfo['port']
-            pool_obtained =  True
-        except:
-            print("> Failed to retrieve Pool Address and Port, Retrying.")
-            continue
+            response = requests.get(
+                "https://server.duinocoin.com/getPool"
+            ).json()
+            NODE_ADDRESS = response["ip"]
+            NODE_PORT = response["port"]
 
-retrieve_server_ip()
+            return NODE_ADDRESS, NODE_PORT
+        except Exception as e:
+            print (f'{current_time()} : Error retrieving mining node, retrying in 15s')
+            time.sleep(15)
+
+def led(status):
+    if leds == True:
+        if status == False:
+            f = open(f'/sys/class/leds/{rejected}/brightness','w')
+            f.write('1')
+            f.close()
+            time.sleep(0.3)
+            f = open(f'/sys/class/leds/{rejected}/brightness','w')
+            f.write('0')
+            f.close()
+        else:
+            f = open(f'/sys/class/leds/{accepted}/brightness','w')
+            f.write('1')
+            f.close()
+            time.sleep(0.3)
+            f = open(f'/sys/class/leds/{accepted}/brightness','w')
+            f.write('0')
+            f.close()
+    else:
+        pass
+
 while True:
     try:
-        # This section connects and logs user to the server
-        soc.connect((str(pool_address), int(pool_port)))
-        server_version = soc.recv(3).decode()  # Get server version
-        print("Server is on version", server_version)
-
+        print(f'{current_time()} : Searching for fastest connection to the server')
+        try:
+            NODE_ADDRESS, NODE_PORT = fetch_pools()
+        except Exception as e:
+            NODE_ADDRESS = "server.duinocoin.com"
+            NODE_PORT = 2813
+            print(f'{current_time()} : Using default server port and address')
+        soc.connect((str(NODE_ADDRESS), int(NODE_PORT)))
+        print(f'{current_time()} : Fastest connection found')
+        server_version = soc.recv(100).decode()
+        print (f'{current_time()} : Server Version: '+ server_version)
         # Mining section
         while True:
-            # Send job request 
             soc.send(bytes(
                 "JOB,"
                 + str(username)
                 + ",LOW",
                 encoding="utf8"))
 
+
             # Receive work
             job = soc.recv(1024).decode().rstrip("\n")
-            # Split received data to job and difficulty
+            # Split received data to job and difficulty 
             job = job.split(",")
             difficulty = job[2]
-            
+
             hashingStartTime = time.time()
             base_hash = hashlib.sha1(str(job[0]).encode('ascii'))
             temp_hash = None
-            
+
             for result in range(100 * int(difficulty) + 1):
                 # Calculate hash with difficulty
-                temp_hash =  base_hash.copy()
+                temp_hash = base_hash.copy()
                 temp_hash.update(str(result).encode('ascii'))
                 ducos1 = temp_hash.hexdigest()
 
@@ -81,54 +108,35 @@ while True:
                         str(result)
                         + ","
                         + str(hashrate)
-                        + ",Router_Miner"
-                        + "2.45",
+                        + ",Minimal_PC_Miner",
                         encoding="utf8"))
 
                     # Get feedback about the result
                     feedback = soc.recv(1024).decode().rstrip("\n")
                     # If result was good
                     if feedback == "GOOD":
-                        # If LED notification is enabled
-                        if enableLEDNotification:
-                            file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
-                            file.write('1')
-                            file.close()
-                            time.sleep(0.3)
-                            file = open(f'/sys/class/leds/{ledaccepted}/brightness','w')
-                            file.write('0')
-                            file.close()
-                        print("Accepted share",
+                        print(f'{current_time()} : Accepted share',
                               result,
                               "Hashrate",
                               int(hashrate/1000),
                               "kH/s",
                               "Difficulty",
                               difficulty)
+                        led(True)
                         break
                     # If result was incorrect
                     elif feedback == "BAD":
-                        # If LED notification is enabled
-                        if enableLEDNotification:
-                            file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
-                            file.write('1')
-                            file.close()
-                            time.sleep(0.3)
-                            file = open(f'/sys/class/leds/{ledrejected}/brightness','w')
-                            file.write('0')
-                            file.close()
-
-                        print("Rejected share",
+                        print(f'{current_time()} : Rejected share',
                               result,
                               "Hashrate",
                               int(hashrate/1000),
                               "kH/s",
                               "Difficulty",
                               difficulty)
+                        led(False)
                         break
 
     except Exception as e:
-        print("Error occured: " + str(e) + ", restarting in 5s.")
-        retrieve_server_ip()
+        print(f'{current_time()} : Error occured: ' + str(e) + ", restarting in 5s.")
         time.sleep(5)
         os.execl(sys.executable, sys.executable, *sys.argv)
