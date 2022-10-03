@@ -3,8 +3,6 @@
 
 This is a short guide that shows you how to mine DuinoCoin on a wifi router. <a  href="https://duinocoin.com">DuinoCoin</a> is a crypto that can even be mined on such low power devices.
 
-<b>Warning! The <a  href="https://www.youtube.com/watch?v=n1P3cpXcubQ"  target="_blank">YouTube Video</a> is not anymore up to date. Just follow the steps here.</b>
-
 1. Flash the router you want to use with <a  href="https://openwrt.org">OpenWRT</a> . There many guides for your specific router out there. This will void your Warranty!
 
 If you want to buy a router in purpose, I would recommend a tplink. You can flash them very easily and they're cheap.
