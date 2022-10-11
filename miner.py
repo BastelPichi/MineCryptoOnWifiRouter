@@ -10,7 +10,8 @@ import time
 import requests
 
 
-username = "Pichi" # add your username here, if set mining key after a colon. e.g. Pichi or Pichi:insecurepw
+username = "Pichi" # add your username here.
+mining_key = "None" # change this to your mining key, or leave as is.
 
 leds = True # True if led notifications shouzld be enabled, if not, False.
 accepted = "fritz4040:amber:info" # Name of the LED that should blink on a accepted share.
