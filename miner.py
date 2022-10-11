@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-# Duino-Coin Router Miner. Heavely based on the duino-coin Minimal PC Miner.
-# Created by revox 2020-2022
-# Modifications made to work on routers BastelPichi 2022
+# Duino-Coin Router Miner. Heavely based on the duino-coin Minimal PC Miner by BastelPichi 2022.
+# Originally by Revox
 
 import hashlib
 import os
@@ -35,49 +34,41 @@ def fetch_pools():
 
             return NODE_ADDRESS, NODE_PORT
         except Exception as e:
-            print (f'{current_time()} : Error retrieving mining node, retrying in 15s')
+            print (f"{current_time()}: Error retrieving mining node, retrying in 15s")
             time.sleep(15)
 
 def led(status):
     if leds == True:
-        if status == False:
-            f = open(f'/sys/class/leds/{rejected}/brightness','w')
-            f.write('1')
-            f.close()
-            time.sleep(0.3)
-            f = open(f'/sys/class/leds/{rejected}/brightness','w')
-            f.write('0')
-            f.close()
-        else:
-            f = open(f'/sys/class/leds/{accepted}/brightness','w')
-            f.write('1')
-            f.close()
-            time.sleep(0.3)
-            f = open(f'/sys/class/leds/{accepted}/brightness','w')
-            f.write('0')
-            f.close()
+        f = open(f"/sys/class/leds/{accepted if status else rejected}/brightness", "w")
+        f.write("1")
+        f.close()
+        time.sleep(0.3)
+        f = open(f"/sys/class/leds/{accepted if status else rejected}/brightness", "w")
+        f.write("0")
+        f.close()
     else:
         pass
 
 while True:
     try:
-        print(f'{current_time()} : Searching for fastest connection to the server')
+        print(f"{current_time()}: Searching for fastest connection to the server")
         try:
             NODE_ADDRESS, NODE_PORT = fetch_pools()
         except Exception as e:
             NODE_ADDRESS = "server.duinocoin.com"
             NODE_PORT = 2813
-            print(f'{current_time()} : Using default server port and address')
+            print(f"{current_time()}: Using default server port and address")
         soc.connect((str(NODE_ADDRESS), int(NODE_PORT)))
-        print(f'{current_time()} : Fastest connection found')
+        print(f"{current_time()}: Fastest connection found")
         server_version = soc.recv(100).decode()
-        print (f'{current_time()} : Server Version: '+ server_version)
+        print (f"{current_time()}: Server Version: {server_version}")
         # Mining section
         while True:
             soc.send(bytes(
                 "JOB,"
                 + str(username)
-                + ",LOW",
+                + ",LOW,"
+                + mining_key,
                 encoding="utf8"))
 
 
@@ -88,13 +79,13 @@ while True:
             difficulty = job[2]
 
             hashingStartTime = time.time()
-            base_hash = hashlib.sha1(str(job[0]).encode('ascii'))
+            base_hash = hashlib.sha1(str(job[0]).encode("ascii"))
             temp_hash = None
 
             for result in range(100 * int(difficulty) + 1):
                 # Calculate hash with difficulty
                 temp_hash = base_hash.copy()
-                temp_hash.update(str(result).encode('ascii'))
+                temp_hash.update(str(result).encode("ascii"))
                 ducos1 = temp_hash.hexdigest()
 
                 # If hash is even with expected hash result
@@ -108,14 +99,14 @@ while True:
                         str(result)
                         + ","
                         + str(hashrate)
-                        + ",Minimal_PC_Miner",
+                        + ",Router Miner",
                         encoding="utf8"))
 
                     # Get feedback about the result
                     feedback = soc.recv(1024).decode().rstrip("\n")
                     # If result was good
                     if feedback == "GOOD":
-                        print(f'{current_time()} : Accepted share',
+                        print(f"{current_time()} : Accepted share",
                               result,
                               "Hashrate",
                               int(hashrate/1000),
@@ -126,7 +117,7 @@ while True:
                         break
                     # If result was incorrect
                     elif feedback == "BAD":
-                        print(f'{current_time()} : Rejected share',
+                        print(f"{current_time()}: Rejected share",
                               result,
                               "Hashrate",
                               int(hashrate/1000),
@@ -137,6 +128,6 @@ while True:
                         break
 
     except Exception as e:
-        print(f'{current_time()} : Error occured: ' + str(e) + ", restarting in 5s.")
+        print(f"{current_time()}: Error occured: {e}, restarting in 5s.")
         time.sleep(5)
         os.execl(sys.executable, sys.executable, *sys.argv)
